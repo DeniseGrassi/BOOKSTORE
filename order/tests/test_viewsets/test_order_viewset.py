@@ -18,16 +18,16 @@ class TestOrderViewSet(APITestCase):
             category=[self.category]
         )
         self.order = OrderFactory(product=[self.product])
-
+        
     def test_order(self):
         response = self.client.get(
-            reverse("order-list", kwargs={"version": "v1"})
+            reverse("v1:order-list")
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        order_data = response.json()  # mais limpo e seguro que json.loads
-        order = order_data[0]  # assumindo que não há paginação
+        order_data = response.json()
+        order = order_data["results"][0] 
 
         self.assertEqual(order["product"][0]["title"], self.product.title)
         self.assertEqual(order["product"][0]["price"], self.product.price)
@@ -36,6 +36,7 @@ class TestOrderViewSet(APITestCase):
             order["product"][0]["category"][0]["title"],
             self.category.title
         )
+
 
     def test_create_order(self):
         user = UserFactory()
@@ -47,7 +48,7 @@ class TestOrderViewSet(APITestCase):
         }
 
         response = self.client.post(
-            reverse("order-list", kwargs={"version": "v1"}),
+            reverse("v1:order-list"),
             data=data,
             format="json"
         )
