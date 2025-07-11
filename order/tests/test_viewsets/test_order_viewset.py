@@ -3,6 +3,7 @@ import json
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 
 from order.factories import OrderFactory, UserFactory
 from order.models import Order
@@ -41,11 +42,13 @@ class TestOrderViewSet(APITestCase):
     def test_create_order(self):
         user = UserFactory()
         product = ProductFactory()
+        
+        self.client.force_authenticate(user=user)
 
         data = {
-            "products_id": [product.id],
-            "user": user.id
+            "products_id": [product.id]
         }
+
 
         response = self.client.post(
             reverse("v1:order-list"),
