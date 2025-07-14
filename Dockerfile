@@ -29,8 +29,7 @@ RUN pip install "poetry>=1.7.1" && mkdir -p $POETRY_HOME/bin && ln -s "$(which p
 # Confirma a versão instalada (opcional)
 RUN poetry --version
 
-# Instala o psycopg2 (PostgreSQL)
-RUN pip install psycopg2
+
 
 # Define diretório de trabalho
 WORKDIR $PYSETUP_PATH
