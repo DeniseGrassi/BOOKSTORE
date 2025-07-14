@@ -13,16 +13,12 @@ class TestOrderViewSet(APITestCase):
     def setUp(self):
         self.category = CategoryFactory(title="technology")
         self.product = ProductFactory(
-            title="mouse",
-            price=100,
-            category=[self.category]
+            title="mouse", price=100, category=[self.category]
         )
         self.order = OrderFactory(product=[self.product])
 
     def test_order(self):
-        response = self.client.get(
-            reverse("order-list", kwargs={"version": "v1"})
-        )
+        response = self.client.get(reverse("order-list", kwargs={"version": "v1"}))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -33,23 +29,17 @@ class TestOrderViewSet(APITestCase):
         self.assertEqual(order["product"][0]["price"], self.product.price)
         self.assertEqual(order["product"][0]["active"], self.product.active)
         self.assertEqual(
-            order["product"][0]["category"][0]["title"],
-            self.category.title
+            order["product"][0]["category"][0]["title"], self.category.title
         )
 
     def test_create_order(self):
         user = UserFactory()
         product = ProductFactory()
 
-        data = {
-            "products_id": [product.id],
-            "user": user.id
-        }
+        data = {"products_id": [product.id], "user": user.id}
 
         response = self.client.post(
-            reverse("order-list", kwargs={"version": "v1"}),
-            data=data,
-            format="json"
+            reverse("order-list", kwargs={"version": "v1"}), data=data, format="json"
         )
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

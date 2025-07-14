@@ -9,10 +9,10 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
-    PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
+    PYSETUP_PATH="/app" \
+    VENV_PATH="/app/.venv"
 
-# PATH atualizado
+# Atualiza o PATH para usar o ambiente virtual
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
 # Instala dependências do sistema
@@ -23,32 +23,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gcc \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instala Poetry via pip em vez do script oficial (mais confiável nesse caso)
-RUN pip install "poetry>=1.7.1" && mkdir -p $POETRY_HOME/bin && ln -s "$(which poetry)" $POETRY_HOME/bin/poetry
-
-# Confirma a versão instalada (opcional)
-RUN poetry --version
-
-
+# Instala Poetry
+RUN pip install "poetry>=1.7.1"
 
 # Define diretório de trabalho
-WORKDIR $PYSETUP_PATH
-
-# Copia os arquivos de dependência
-COPY poetry.lock pyproject.toml README.md ./
-
-# Instala dependências de runtime
-RUN poetry install --only main --no-root
-
-# Define diretório principal da aplicação
 WORKDIR /app
 
-# Copia o restante da aplicação
-COPY . /app/
+# Copia arquivos de dependência
+COPY poetry.lock pyproject.toml README.md ./
 
-# Expõe a porta da aplicação
-EXPOSE 8000
+# Instala todas as dependências (inclusive Django)
+RUN poetry install --no-root
 
-# Comando padrão para rodar o Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Copia o restante do código
+COPY . .
+
+# Comando padrão para subir o backend
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+
 
