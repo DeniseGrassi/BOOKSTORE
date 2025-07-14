@@ -14,10 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+import debug_toolbar
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.http import HttpResponse  # <- Adicionado
+from rest_framework.authtoken.views import obtain_auth_token
+
+
+def home(request):  # <- View simples
+    return HttpResponse("Bem-vinda à API da Bookstore!")
 
 urlpatterns = [
+    path("", home),  # <- Rota raiz
+    path('__debug__', include(debug_toolbar.urls)),
     path("admin/", admin.site.urls),
+    path("api/v1/", include("product.urls")), 
+    path("bookstore/v1/order/", include(("order.urls", "order"), namespace="v1")),    
+    path("bookstore/v2/order/", include(("order.urls", "order"), namespace="v2")),    
+    path("bookstore/v1/product/", include(("product.urls", "product"), namespace="v1_product")),
+    path("bookstore/v2/product/", include(("product.urls", "product"), namespace="v2_product")),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]
