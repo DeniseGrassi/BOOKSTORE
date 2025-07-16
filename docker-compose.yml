@@ -1,7 +1,6 @@
 services:
   web:
     build:
-      context: .
     command: poetry run python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/app/
@@ -16,17 +15,19 @@ services:
 
   db:
     image: postgres:14
-    restart: always
+    ports:
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_USER: dev
-      POSTGRES_PASSWORD: dev
-      POSTGRES_DB: bookstore_db
+      - POSTGRES_USER=bookstore_dev
+      - POSTGRES_PASSWORD=bookstore_dev
+      - POSTGRES_DB=bookstore_dev_db
     networks:
       - backend
 networks:
   backend:
     driver: bridge 
+
 volumes:
   postgres_data:
