@@ -39,7 +39,7 @@ class TestOrderViewSet(APITestCase):
         data = {"products_id": [product.id], "user": user.id}
 
         response = self.client.post(
-            reverse("order-list", kwargs={"version": "v1"}), data=data, format="json"
+            reverse("order-list"), data=data, format="json"
         )
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
