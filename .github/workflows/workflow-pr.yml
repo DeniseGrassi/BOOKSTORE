@@ -43,3 +43,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # Atualizado para fix-clean-workflow2
+# Forçando execução sem 3.1
