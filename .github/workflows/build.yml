@@ -1,6 +1,6 @@
 name: Python application build v2
 
-on: [push]
+on: workflow_dispatch
 
 jobs:
   build:
