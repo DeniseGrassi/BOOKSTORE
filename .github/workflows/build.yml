@@ -1,6 +1,7 @@
 name: Python application build v2
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
 
 jobs:
   build:
