@@ -36,7 +36,7 @@ jobs:
         run: poetry run python manage.py test
 
       - name: Run wemake-python-styleguide
-        uses: wemake-services/wemake-python-styleguide@0.16.0
+        uses: wemake-services/wemake-python-styleguide@v0.17.0  # Exemplo de versão mais recente
         continue-on-error: true
         with:
           reporter: 'github-pr-review'
