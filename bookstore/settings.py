@@ -14,10 +14,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=BASE_DIR / "env.dev")
 
-# load_dotenv(dotenv_path=BASE_DIR / "env.dev")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "chave-insegura-para-dev")
@@ -166,4 +167,4 @@ INTERNAL_IPS = [
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bookstore-ap1.herokuapp.com']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bookstore-ap1.herokuapp.com']
