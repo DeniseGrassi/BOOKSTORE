@@ -22,8 +22,12 @@ class TestOrderViewSet(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        order_data = response.json()  # mais limpo e seguro que json.loads
-        order = order_data[0]  # assumindo que não há paginação
+        response_data = response.json()
+        order_data = response_data.get("results", [])
+
+        self.assertTrue(order_data, "A resposta da API está vazia ou não retornou resultados.")
+
+        order = order_data[0]
 
         self.assertEqual(order["product"][0]["title"], self.product.title)
         self.assertEqual(order["product"][0]["price"], self.product.price)
