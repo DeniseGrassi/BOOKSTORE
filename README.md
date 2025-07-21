@@ -3,3 +3,4 @@
 
 Este é um sistema de livraria criado com Django.  
 Desenvolvido por Denise Grassi — Projeto de estudo com fins educacionais.
+# Teste para resetar GitHub Actions
