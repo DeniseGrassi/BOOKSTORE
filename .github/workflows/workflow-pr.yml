@@ -31,12 +31,12 @@ jobs:
           POETRY_VIRTUALENVS_CREATE: false
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-root
         env:
           POETRY_VIRTUALENVS_CREATE: false
 
       - name: Run tests
-        run: poetry run python manage.py test
+        run: python manage.py test
 
       - name: Linter (temporariamente desativado)
         run: echo "wemake-python-styleguide removido para evitar bug do Python 3.1"
