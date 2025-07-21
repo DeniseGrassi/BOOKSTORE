@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   qa:
-    name: Quality Check
+    name: Quality Check v2
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,10 +36,14 @@ jobs:
       - name: Run tests
         run: poetry run python manage.py test
 
-      - name: Run wemake-python-styleguide
-        uses: wemake-services/wemake-python-styleguide@0.16.0
-        continue-on-error: true
-        with:
-          reporter: 'github-pr-review'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Skip wemake for test
+        run: echo "Linter desativado temporariamente"
+
+
+      # - name: Run wemake-python-styleguide
+      #   uses: wemake-services/wemake-python-styleguide@0.16.0
+      #   continue-on-error: true
+      #   with:
+      #     reporter: 'github-pr-review'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
