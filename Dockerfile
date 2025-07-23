@@ -35,6 +35,8 @@ COPY poetry.lock pyproject.toml README.md ./
 # Instala todas as dependências (inclusive Django)
 RUN poetry install --no-root
 
+RUN python manage.py collectstatic --noinput
+
 # Copia o restante do código
 COPY . .
 
