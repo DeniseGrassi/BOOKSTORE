@@ -23,27 +23,23 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gcc \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instala Poetry
+# Instala o Poetry
 RUN pip install "poetry>=1.7.1"
 
-# Define diretório de trabalho
+# Define o diretório de trabalho inicial
 WORKDIR /app
 
 # Copia arquivos de dependência
 COPY poetry.lock pyproject.toml README.md ./
 
-# Instala todas as dependências
+# Instala todas as dependências (inclusive o Django)
 RUN poetry install --no-root
 
-# Copia o restante do código (inclusive o manage.py dentro da subpasta)
+# Copia o restante do código
 COPY . .
 
-# Vai até a pasta onde está o manage.py
-WORKDIR /app/backend/backend/bookstore
-
-# Coleta os arquivos estáticos (admin CSS, etc.)
+# Coleta os arquivos estáticos (CSS do admin etc)
 RUN poetry run python manage.py collectstatic --noinput
 
-# Comando padrão para rodar o backend
+# Comando para rodar o backend
 CMD ["poetry", "run", "gunicorn", "bookstore.wsgi:application", "--bind", "0.0.0.0:$PORT"]
-
