@@ -64,3 +64,5 @@ Este projeto é uma API RESTful para gerenciamento de uma livraria, construída 
 
     docker-compose exec web python manage.py test
    ```
+
+6. Deploy automático para o Heroku configurado via GitHub Actions

@@ -18,12 +18,10 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse  # <- Adicionado
-
+from django.http import HttpResponse 
 
 def home(request):  # <- View simples
     return HttpResponse("Bem-vinda à API da Bookstore!")
-
 
 urlpatterns = [
     path("", home),  # <- Rota raiz
@@ -33,4 +31,5 @@ urlpatterns = [
     path("bookstore/v1/product/", include("product.urls")),
     path("bookstore/v2/order/", include("order.urls")),
     path("bookstore/v2/product/", include("product.urls")),
+    
 ]
