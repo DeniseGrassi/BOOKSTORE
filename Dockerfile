@@ -35,10 +35,14 @@ COPY poetry.lock pyproject.toml README.md ./
 # Instala todas as dependências (inclusive Django)
 RUN poetry install --no-root
 
-RUN python manage.py collectstatic --noinput
-
 # Copia o restante do código
 COPY . .
+
+# Define o diretório onde está o manage.py
+WORKDIR /app/backend/backend/bookstore
+
+# Coleta arquivos estáticos
+RUN poetry run python manage.py collectstatic --noinput
 
 # Comando padrão para subir o backend
 CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
