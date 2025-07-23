@@ -45,4 +45,5 @@ WORKDIR /app/backend/backend/bookstore
 RUN poetry run python manage.py collectstatic --noinput
 
 # Comando padrão para rodar o backend
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["poetry", "run", "gunicorn", "bookstore.wsgi:application", "--bind", "0.0.0.0:$PORT"]
+
