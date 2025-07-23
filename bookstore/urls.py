@@ -33,4 +33,7 @@ urlpatterns = [
     path("bookstore/v1/product/", include("product.urls")),
     path("bookstore/v2/order/", include("order.urls")),
     path("bookstore/v2/product/", include("product.urls")),
+    path("bookstore/v1/category/", include("category.urls")),
+
+    
 ]
